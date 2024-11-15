@@ -6,6 +6,7 @@ from src.procesamiento.automata import Automata
 
 # Función para ejecutar la validación de la expresión regular
 def validar():
+    cadenas_validas = []  # Para almacenar las cadenas que son válidas
     expresion = entrada_expresion.get("1.0", tk.END).strip()
     cadenas = entrada_cadenas.get("1.0", tk.END).splitlines()
 
@@ -21,12 +22,16 @@ def validar():
         for cadena, es_valida in resultados:
             resultado = f"{cadena}: {'Aceptada' if es_valida else 'Rechazada'}\n"
             area_resultados.insert(tk.END, resultado)
+            if es_valida:
+                cadenas_validas.append(cadena)  # Solo añadir las cadenas válidas
+
     area_resultados.config(state=tk.DISABLED)
 
-    # Construir y visualizar el autómata basado en la expresión regular
-    automata = Automata().construir_desde_regex(expresion)
-    visualizador = AutomataVisualizer(automata)
-    visualizador.visualizar()
+    # Construir y visualizar el autómata basado en la cadenas validas
+    if cadenas_validas.__len__() > 0:
+        automata = Automata().construir_desde_cadenas_validas(cadenas_validas)
+        visualizador = AutomataVisualizer(automata)
+        visualizador.visualizar()
 
 # Configuración de la interfaz gráfica
 ventana = tk.Tk()
