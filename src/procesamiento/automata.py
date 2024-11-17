@@ -8,7 +8,8 @@ class Automata:
 
     def construir_desde_cadenas_validas(self, cadenas_validas):
         """
-        Construye un NFA que acepte varias cadenas válidas.
+        Construye un NFA optimizado que acepte varias cadenas válidas.
+        Si varias cadenas comparten un prefijo, utiliza un único conjunto de nodos para ese prefijo.
         """
         if not cadenas_validas:
             raise ValueError("No se proporcionaron cadenas válidas para construir el NFA.")
@@ -16,31 +17,31 @@ class Automata:
         # Inicializamos el autómata
         self.estados = ["q0"]  # El estado inicial q0
         self.estado_inicial = "q0"
-        estado_count = 1  # Contador para nuevos estados
         self.estados_aceptacion = []  # Lista de estados de aceptación
         self.transiciones = {}  # Diccionario de transiciones
+        estado_count = 1  # Contador para nuevos estados
 
-        # Recorremos las cadenas válidas para construir las transiciones
         for cadena in cadenas_validas:
-            estado_actual = "q0"  # Empezamos siempre desde el estado inicial
+            estado_actual = "q0"  # Siempre comenzamos desde el estado inicial
 
-            # Recorremos los símbolos de la cadena
             for simbolo in cadena:
-                # Si no hay una transición para este estado y símbolo, la creamos
+                # Verificar si ya existe una transición para el símbolo actual
                 if (estado_actual, simbolo) not in self.transiciones:
-                    self.transiciones[(estado_actual, simbolo)] = set()
+                    # Si no existe, crear un nuevo estado
+                    estado_siguiente = f"q{estado_count}"
+                    self.estados.append(estado_siguiente)
+                    self.transiciones[(estado_actual, simbolo)] = {estado_siguiente}
+                    estado_count += 1
+                else:
+                    # Si ya existe una transición, seguimos al estado existente
+                    estado_siguiente = list(self.transiciones[(estado_actual, simbolo)])[0]
 
-                # Definimos el siguiente estado
-                estado_siguiente = f"q{estado_count}"
-                self.estados.append(estado_siguiente)
-                self.transiciones[(estado_actual, simbolo)].add(estado_siguiente)
-
-                # Avanzamos al siguiente estado
+                # Avanzar al siguiente estado
                 estado_actual = estado_siguiente
-                estado_count += 1
 
-            # El último estado de la cadena debe ser un estado de aceptación
-            self.estados_aceptacion.append(estado_actual)
+            # Una vez procesada la cadena completa, marcar el último estado como de aceptación
+            if estado_actual not in self.estados_aceptacion:
+                self.estados_aceptacion.append(estado_actual)
 
         # Asegurarnos de que el alfabeto contenga todos los símbolos de las cadenas
         for cadena in cadenas_validas:
