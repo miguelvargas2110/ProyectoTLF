@@ -68,7 +68,7 @@
       <recent name="C:\Users\migue\PycharmProjects\ProyectoTLF\src\interfaz" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in test_validaciones.py">
+  <component name="RunManager" selected="Python.Main">
     <configuration name="Main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ProyectoTLF" />
       <option name="ENV_FILES" value="" />
@@ -142,8 +142,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in test_validaciones.py" />
         <item itemvalue="Python.Main" />
+        <item itemvalue="Python tests.Python tests in test_validaciones.py" />
         <item itemvalue="Python tests.Python tests for test_validaciones.TestRegexValidator" />
         <item itemvalue="Python tests.Python tests for test_validaciones.TestRegexValidator.test_visualizador_automata" />
       </list>

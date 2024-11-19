@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import messagebox
 import re
 
+from Main import validar
+
+
 # Función para resaltar la sintaxis de la expresión regular
 def resaltar_sintaxis(event):
     expresion = entrada_expresion.get()
